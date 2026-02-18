@@ -39,7 +39,8 @@
 % [f_obtainBrukerparameter.m]  --> fixed readout bug 
 % #ba 25 Jan 2025 (22:42:47)
 % added QA: registration of PDnormalized to standardspace, other small changes 
-% 
+% #T 18 Feb 2026 (14:10:26)
+% sanity checks
 % 
 
 %----- EOF

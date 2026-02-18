@@ -1,11 +1,14 @@
 ## **mpm Modifications**
- &#x1F535; last modification:   25 Jan 2025 (22:42:47)  
+ &#x1F535; last modification:   18 Feb 2026 (14:10:26)  
     
  &#8658; Respository: <a href= "https://github.com/ChariteExpMri/mpm">https://github.com/ChariteExpMri/mpm</a>  
     
     
     
 ------------------  
+  &#x1F4D9;   <ins>**18 Feb 2026 (14:10:26)**</ins>  
+  sanity checks  
+<!---->
   &#x1F535;   <ins>**25 Jan 2025 (22:42:47)**</ins>  
   added QA: registration of PDnormalized to standardspace, other small changes   
 <!---->
