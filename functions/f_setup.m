@@ -20,7 +20,7 @@ end
 
 %% ===============================================
 
-pas=fullfile(fileparts(which('mpm.m')),'resources');
+pas=fullfile(fileparts(which('mpm.m')),'_resources');
 p.path_resources=pas;
 p.files2copy={...
     'mpm_NIFTIparameters.xlsx'    'copy NIFTI-parameter file (Excelfile)'   1  'copy_NIFTIparam'  ...
@@ -148,7 +148,7 @@ end
 
 %% ==========[presettings]=====================================
 pathis=pwd;
-pa_resource=fullfile(fileparts(which('mpm.m')),'resources');
+pa_resource=fullfile(fileparts(which('mpm.m')),'_resources');
 cd(pa_resource);
 tb=mpm_miscsettings;
 cd(pathis);
@@ -413,7 +413,7 @@ if exist('arg2')==0;
 end
 %% ==========[presettings]=====================================
 pathis=pwd;
-pa_resource=fullfile(fileparts(which('mpm.m')),'resources');
+pa_resource=fullfile(fileparts(which('mpm.m')),'_resources');
 cd(pa_resource);
 tb=mpm_miscsettings;
 cd(pathis);
@@ -427,7 +427,7 @@ end
 
 
 %% ===============================================
-respa=fullfile(fileparts(which('mpm')),'resources');
+respa=fullfile(fileparts(which('mpm')),'_resources');
 if strcmp(fi, 'hmri_local_defaults_mouse.m')
     f1=fullfile(pa,fi);
     a=preadfile(f1); a=a.all;

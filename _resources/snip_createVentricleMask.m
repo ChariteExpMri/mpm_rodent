@@ -26,7 +26,7 @@ m=double(at==id);
 
 
 hb=hat;
-hb.fname='F:\data7\MPM_agBrandt\mpm_functions\resources\mask_ventricle.nii'
+hb.fname='F:\data7\MPM_agBrandt\mpm_functions\_resources\mask_ventricle.nii'
 hb=spm_create_vol(hb)
 hb.dt=[16 0];
 spm_write_vol(hb,m)

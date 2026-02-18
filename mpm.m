@@ -244,7 +244,7 @@ if isempty(ix_mpm_path);     addpath((mpm_path));  end
 k=dir(mpm_path);
 isdirs=find([k.isdir]==1);
 subdirs={k(isdirs).name};
-subdirs=subdirs(cellfun(@isempty,regexpi(subdirs,'^.$|^..$|^.git$|^resources$')));
+subdirs=subdirs(cellfun(@isempty,regexpi(subdirs,'^.$|^..$|^.git$|^_resources$')));
 % subdirs={'misc'}; %add subdirs
 for i=1:length(subdirs)
     this_subdir=fullfile(mpm_path,subdirs{i});
