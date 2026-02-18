@@ -67,10 +67,10 @@ end
 tb=getbrukerparamss(files, paras,pa);
 
 
-writeXLSfile(mpm.niftis,tb);
+writeXLSfile(mpm.niftis,tb,files);
 
 %% ===============================================
-function writeXLSfile(c,tb);
+function writeXLSfile(c,tb,files);
 
 %% ===============================================
 paras={...
@@ -85,13 +85,15 @@ d=c.a;
 
 
 for i=1:length(tags)
-    ix=find(strcmp(d(:,1),tags{i}));
-    for j=1:size(paras,1)
-        ic=find(strcmp(c.ha,paras{j,2}));
-        ms=getfield(tb(i),paras{j,1});
-        ms=regexprep(ms,'\s+',',');
-        if strcmp(ms(end),','); ms(end)=[]; end  ;%remove trailing comma
-        d{ix,ic}=ms;
+    if strcmp(files{i},'t2w')~=1  %don't write for 't2w' (t2.nii)
+        ix=find(strcmp(d(:,1),tags{i}));
+        for j=1:size(paras,1)
+            ic=find(strcmp(c.ha,paras{j,2}));
+            ms=getfield(tb(i),paras{j,1});
+            ms=regexprep(ms,'\s+',',');
+            if strcmp(ms(end),','); ms(end)=[]; end  ;%remove trailing comma
+            d{ix,ic}=ms;
+        end
     end
 end
 %% ===========write EXCELFILE ====================================
@@ -109,7 +111,8 @@ so=dir(f2);
 t1=datevec(so.datenum);
 t2=datevec(now);
 difftime_sec=round(etime(t2,t1));
-block_time_sec=5; 
+% block_time_sec=5;
+block_time_sec=1;
 
 % difftime_sec>block_time_sec;
 
@@ -126,6 +129,22 @@ if difftime_sec>block_time_sec
         writetable(t,f2,'Sheet',1);
     end
     showinfo2('VISU-parameters added: ' ,f2);
+    
+    if 1 %check
+        [hb b0]=xlsread(f2);
+        bh=b0(1,:);
+        b =b0(2:end,:);
+        ic=find(strcmp(bh,'TE_ms'));
+        ir=find(~cellfun(@isempty,b(:,ic)));
+        try
+            cprintf('*[1 0 1]',['TEs in Excelfile:'  '\n']);
+        catch
+           disp('TEs in Excelfile:'); 
+        end
+        disp(char(cellfun(@(a,b){[ '   [' a '] with TEs: ' b ]} ,b(ir,2), b(ir,ic))));
+    end
+    
+    
 else
     disp(['excelfile..no modifications, because last modification is < ' num2str(difftime_sec) 's ago!']);
 end
@@ -162,7 +181,7 @@ for j=1:length(k)
         ix=find(~cellfun(@isempty,strfind(a,pa_rawHDR)));
         if isempty(ix)
             try
-                ix=find(~cellfun(@isempty,strfind(a,f1)))
+                ix=find(~cellfun(@isempty,strfind(a,f1)));
             catch
                 error(['rawDataPath not found: '  f1 ]);
             end

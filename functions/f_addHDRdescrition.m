@@ -67,6 +67,7 @@ for i=1:length(files)
     for j=1:length(fis)
         switch files{i}
             case {'T1'    'MT'    'PD'}
+                [i j]
                 TEvec=t{i,iTE};
                 TEvals=strsplit(TEvec,',');
                 ms= [ ['3T 3D GR '] ['TR=' t{i,iTR}  'ms/'] [ 'TE=' TEvals{j} 'ms/']  ['FA=' t{i,iFA} 'deg/'] 'SO=MT ' timex];

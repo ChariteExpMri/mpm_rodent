@@ -3,8 +3,17 @@
 % 
 % no-GUi option to copy necessary files
 %f_setup('ini')
+% 
+% specify MPM-path;
+% examples: f_setup('ini','mpm.MPM_path','D:\MATLAB\hMRI-toolbox-0.2.4');
 
-function f_setup(arg)
+function f_setup(varargin)
+
+arg=varargin{1};
+arg2={};
+if nargin>1
+    arg2=varargin(2:end);
+end
 
 
 
@@ -32,11 +41,11 @@ p.files2copy={...
 
 
 if exist('arg')==1
-    if ischar(arg)==1 && strcmp(arg,'ini')
+    if ischar(arg)==1 && (strcmp(arg,'ini')|| strcmp(arg,'update'))
         
         p.isgui=0;
-        
-        proc_ok([],[],p)
+
+        proc_ok([],[],p,arg,arg2)
         return
     end 
 end
@@ -303,7 +312,7 @@ end
 
 
 
-function proc_ok(e,e2,arg)
+function proc_ok(e,e2,arg,arg1,arg2)
 % arg
 isgui=1;
 if isstruct(arg)
@@ -378,19 +387,30 @@ else
     path_resources=s.path_resources;
 end
 
+if exist('arg2')==0; 
+    arg2={};
+end
+if  exist('arg1')==0; 
+     arg1='ini';    
+end
 for i=1:size(f)
     f1=fullfile(path_resources,  f{i,1});
     f2=fullfile(destpath        ,  f{i,1});
-    disp(['  ..copying "' f{i,1} '" ..' ]);
-    copyfile(f1,f2,'f')
-    changeFile(destpath,f{i,1} )
+    
+    if strcmp(arg1,'ini')
+        disp(['  ..copying "' f{i,1} '" ..' ]);
+        copyfile(f1,f2,'f');
+    end
+    changeFile(destpath,f{i,1},arg2 )
 end
 
 
 %% ======[ modifications ]=========================================
 
-function changeFile(pa, fi)
-
+function changeFile(pa, fi,arg2)
+if exist('arg2')==0; 
+    arg2={};
+end
 %% ==========[presettings]=====================================
 pathis=pwd;
 pa_resource=fullfile(fileparts(which('mpm.m')),'resources');
@@ -398,8 +418,12 @@ cd(pa_resource);
 tb=mpm_miscsettings;
 cd(pathis);
 
-hp=findobj(gcf,'tag','preselection');
-presel=hp.String{hp.Value};
+try
+    hp=findobj(gcf,'tag','preselection');
+    presel=hp.String{hp.Value};
+catch
+    presel='none';
+end
 
 
 %% ===============================================
@@ -441,6 +465,26 @@ elseif strcmp(fi, 'mpm_config.m')
     if ~isempty(sub) && strcmp(sub,'antx2')==0
        a2=replaceconfiguration(a2, 'mpm.SPM_path', [ which('spm.m')]  ); 
     end
+    %% ===============================================
+    % replace paramters
+    %% examples: f_setup('ini','mpm.MPM_path','D:\MATLAB\hMRI-toolbox-0.2.4');
+    if ~isempty(arg2)
+        for i=1:2:length(arg2)
+            if ~isempty(regexpi2(a2,[ '^' arg2{i} ]))
+                %a2=replaceconfiguration(a2, 'mpm.MPM_path', path_hmri);
+%                 if ischar(arg2{i+1})
+                a2=replaceconfiguration(a2, arg2{i}, arg2{i+1});
+%                 elseif isnumeric(arg2{i+1})
+%                 a2=replaceconfiguration(a2, arg2{i}, [ '['  num2str(arg2{i+1}) ']' ]);
+%                 end
+                %disp(a2)
+            end
+        end
+        
+        
+    end
+    %% ===============================================
+    
     
 %     char(a2)
   
@@ -471,7 +515,7 @@ b=lin(1:min(strfind(lin,'=')));
 if ischar(repl)
     m=[b   '''' repl ''';'  cmt];
 elseif isnumeric(repl)
-    m=[b   '[' repl '];'  cmt];
+    m=[b   '[' num2str(repl) '];'  cmt];
 end
 a2=a;
 a2{ix}=m;
