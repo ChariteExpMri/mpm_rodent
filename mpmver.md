@@ -1,11 +1,14 @@
 ## **mpm Modifications**
- &#x1F535; last modification:   18 Feb 2026 (14:10:26)  
+ &#x1F535; last modification:   18 Mar 2026 (12:55:15)  
     
  &#8658; Respository: <a href= "https://github.com/ChariteExpMri/mpm">https://github.com/ChariteExpMri/mpm</a>  
     
     
     
 ------------------  
+  &#x1F535;   <ins>**18 Mar 2026 (12:55:15)**</ins>  
+  __[f_QA_registration_PDnormalized.m]__  , updated plot with colorbar  
+<!---->
   &#x1F535;   <ins>**18 Feb 2026 (14:10:26)**</ins>  
   sanity checks  
 <!---->

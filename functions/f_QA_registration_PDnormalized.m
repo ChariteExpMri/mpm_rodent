@@ -138,10 +138,10 @@ if exist(f1)==2 && exist(f2)==2
     for i=1:length(dims)
         dim    =dims(i);
         nslices=z.nslices;
-        
+        %% ===============================================
         h=spm_vol(f1);
-        slicenr=round(linspace(1,h.dim(dim),nslices+2));
-        slicenr([1 end])=[];
+        slicenr=round(linspace(1,h.dim(dim),nslices+4));
+        slicenr([1:2 end-1:end])=[];
         
         [d ds]=getslices(f1     ,dim,[slicenr],[],0 );
         [o os]=getslices({f1 f2},dim,[slicenr],[],0 );
@@ -151,14 +151,36 @@ if exist(f1)==2 && exist(f2)==2
         d1=montageout(permute(d,[1 2 4 3]),'Size',z.sb);
         o1=montageout(permute(o,[1 2 4 3]),'Size',z.sb);
         
-        d1=imadjust(mat2gray(d1))*255;
+       % d1=imadjust(mat2gray(d1))*255;
+        %% ===============================================
         
         hf=figure('visible','off');
         imagesc(d1); colormap(gray) ;hold on;
         contour(o1,3,'color',z.colour,'linewidth',z.linewidth,...
             'linestyle',z.linestyle)
+        caxis([0 150]);
         axis image
         axis off
+        
+        ax=findobj(hf,'type','axes');
+        cb = colorbar;
+        ax_pos = ax.Position;
+        cb_pos = cb.Position;
+        % Define new colorbar width
+        new_cb_width = 0.01;
+        % Keep right edge fixed
+        right = cb_pos(1) + cb_pos(3);
+        cb_pos(3) = new_cb_width;
+        cb_pos(1) = right - new_cb_width;       
+        gap = 0.005;  % small space between image and colorbar
+        ax_pos(3) = cb_pos(1) - ax_pos(1) - gap;
+        ax.Position = ax_pos;
+        cb.Position = cb_pos;
+        cb.FontWeight='bold';
+        cb.FontSize=5;
+        ylabel(cb, 'PD (norm., %)','fontsize',5);
+
+        
         %% ===============================================
         imgtag=regexprep([ z.file1  '--' z.file2 '_dim', num2str(dim) ],'.nii',''  );
         fname=[animal '_' imgtag '.png'];

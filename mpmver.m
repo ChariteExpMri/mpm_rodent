@@ -41,6 +41,11 @@
 % added QA: registration of PDnormalized to standardspace, other small changes 
 % #ba 18 Feb 2026 (14:10:26)
 % sanity checks
+% #ba 18 Mar 2026 (12:55:15)
+% [f_QA_registration_PDnormalized.m]  , updated plot with colorbar
+% 
+% 
+% 
 % 
 
 %----- EOF
