@@ -43,7 +43,8 @@
 % sanity checks
 % #ba 18 Mar 2026 (12:55:15)
 % [f_QA_registration_PDnormalized.m]  , updated plot with colorbar
-% 
+% #ba 19 May 2026 (12:46:15)
+% [f_registerTurborare.m] : use faster geistration
 % 
 % 
 % 
